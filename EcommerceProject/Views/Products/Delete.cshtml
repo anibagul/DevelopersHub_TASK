@@ -1,0 +1,68 @@
+﻿@model EcommerceProject.Models.Product
+
+@{
+    ViewData["Title"] = "Delete Product";
+    var imagePath = string.IsNullOrWhiteSpace(Model.ImageUrl)
+        ? "/images/products/phone.png"
+        : Model.ImageUrl;
+}
+
+<section class="product-manage-page">
+    <div class="container">
+
+        <div class="product-manage-header">
+            <div>
+                <p class="product-manage-subtitle">Admin / Products / Delete</p>
+                <h1>Delete Product</h1>
+            </div>
+
+            <div class="product-manage-actions">
+                <a asp-controller="Products" asp-action="Manage" class="manage-secondary-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Products
+                </a>
+            </div>
+        </div>
+
+        <div class="delete-product-card">
+            <div class="delete-warning">
+                <i class="bi bi-exclamation-triangle"></i>
+                <div>
+                    <h2>Are you sure you want to delete this product?</h2>
+                    <p>This action will remove the product from your database.</p>
+                </div>
+            </div>
+
+            <div class="delete-product-info">
+                <img src="@imagePath" alt="@Model.Name" />
+
+                <div>
+                    <h3>@Model.Name</h3>
+                    <p>@Model.Description</p>
+
+                    <div class="delete-meta">
+                        <span>Price: <strong>$@Model.Price.ToString("0.00")</strong></span>
+                        <span>Stock: <strong>@Model.Stock</strong></span>
+                        <span>Category: <strong>@(Model.Category?.Name ?? "No category")</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <form asp-controller="Products" asp-action="Delete" method="post" class="delete-form-actions">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Id" />
+
+                <button type="submit" class="delete-confirm-btn">
+                    <i class="bi bi-trash"></i>
+                    Yes, Delete
+                </button>
+
+                <a asp-controller="Products" asp-action="Manage" class="manage-secondary-btn">
+                    Cancel
+                </a>
+            </form>
+        </div>
+
+    </div>
+</section>

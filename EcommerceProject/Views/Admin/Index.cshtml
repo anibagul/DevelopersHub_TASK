@@ -1,0 +1,226 @@
+﻿@model IEnumerable<EcommerceProject.Models.Order>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<section class="admin-page">
+    <div class="container">
+
+        <div class="admin-header">
+            <div>
+                <p class="admin-subtitle">Welcome back, Admin</p>
+                <h1>Dashboard</h1>
+            </div>
+
+            <div class="admin-header-actions">
+                <a asp-controller="Products" asp-action="Create" class="admin-primary-btn">
+                    <i class="bi bi-plus-circle"></i>
+                    Add Product
+                </a>
+
+                <a asp-controller="Home" asp-action="Index" class="admin-secondary-btn">
+                    <i class="bi bi-shop"></i>
+                    View Store
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Stats -->
+        <div class="admin-stats-grid">
+
+            <div class="admin-stat-card">
+                <div class="stat-icon blue">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+                <div>
+                    <p>Total Products</p>
+                    <h2>@ViewBag.TotalProducts</h2>
+                </div>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="stat-icon green">
+                    <i class="bi bi-grid"></i>
+                </div>
+                <div>
+                    <p>Total Categories</p>
+                    <h2>@ViewBag.TotalCategories</h2>
+                </div>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="stat-icon orange">
+                    <i class="bi bi-receipt"></i>
+                </div>
+                <div>
+                    <p>Total Orders</p>
+                    <h2>@ViewBag.TotalOrders</h2>
+                </div>
+            </div>
+
+            <div class="admin-stat-card">
+                <div class="stat-icon purple">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div>
+                    <p>Total Users</p>
+                    <h2>@ViewBag.TotalUsers</h2>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sales and Management -->
+        <div class="admin-main-grid">
+
+            <div class="admin-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-subtitle">Overview</p>
+                        <h2>Store Summary</h2>
+                    </div>
+                </div>
+
+                <div class="summary-list">
+                    <div class="summary-item">
+                        <span>Total Sales</span>
+                        <strong>$@ViewBag.TotalSales.ToString("0.00")</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Total Cart Items</span>
+                        <strong>@ViewBag.TotalCartItems</strong>
+                    </div>
+
+                    <div class="summary-item">
+                        <span>Total Order Details</span>
+                        <strong>@ViewBag.TotalOrderDetails</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="panel-subtitle">Quick access</p>
+                        <h2>Management</h2>
+                    </div>
+                </div>
+
+                <div class="admin-quick-actions">
+                    <a asp-controller="Products" asp-action="Manage">
+                        <i class="bi bi-box-seam"></i>
+                        Manage Products
+                    </a>
+
+                    <a asp-controller="Products" asp-action="Create">
+                        <i class="bi bi-plus-square"></i>
+                        Add New Product
+                    </a>
+
+                    <a asp-controller="Categories" asp-action="Index">
+                        <i class="bi bi-grid-3x3-gap"></i>
+                        Manage Categories
+                    </a>
+
+                    <a asp-controller="Categories" asp-action="Create">
+                        <i class="bi bi-folder-plus"></i>
+                        Add New Category
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Order Status -->
+        <div class="admin-panel">
+            <div class="panel-header">
+                <div>
+                    <p class="panel-subtitle">Orders</p>
+                    <h2>Order Status</h2>
+                </div>
+            </div>
+
+            <div class="order-status-grid">
+                <div class="order-status-card pending">
+                    <p>Pending</p>
+                    <h3>@ViewBag.PendingOrders</h3>
+                </div>
+
+                <div class="order-status-card processing">
+                    <p>Processing</p>
+                    <h3>@ViewBag.ProcessingOrders</h3>
+                </div>
+
+                <div class="order-status-card shipped">
+                    <p>Shipped</p>
+                    <h3>@ViewBag.ShippedOrders</h3>
+                </div>
+
+                <div class="order-status-card delivered">
+                    <p>Delivered</p>
+                    <h3>@ViewBag.DeliveredOrders</h3>
+                </div>
+
+                <div class="order-status-card cancelled">
+                    <p>Cancelled</p>
+                    <h3>@ViewBag.CancelledOrders</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="admin-panel">
+            <div class="panel-header">
+                <div>
+                    <p class="panel-subtitle">Latest activity</p>
+                    <h2>Recent Orders</h2>
+                </div>
+            </div>
+
+            <div class="admin-table-wrap">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>User</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td>#@order.Id</td>
+                                    <td>@(order.User?.Email ?? "Unknown user")</td>
+                                    <td>@order.OrderDate.ToString("dd MMM yyyy")</td>
+                                    <td>
+                                        <span class="status-badge status-@order.Status.ToString().ToLower()">
+                                            @order.Status
+                                        </span>
+                                    </td>
+                                    <td>$@order.TotalAmount.ToString("0.00")</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="empty-table">
+                                    No recent orders found.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>

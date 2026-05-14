@@ -1,0 +1,187 @@
+﻿@page
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+@using EcommerceProject.Models
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@functions {
+    [BindProperty]
+    public InputModel Input { get; set; } = new();
+
+    public string ReturnUrl { get; set; } = "/";
+
+    public class InputModel
+    {
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Password is required.")]
+        [StringLength(100, ErrorMessage = "Password must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Confirm password is required.")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+
+    public void OnGet(string? returnUrl = null)
+    {
+        ReturnUrl = returnUrl ?? Url.Content("~/");
+    }
+
+    public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
+    {
+        ReturnUrl = returnUrl ?? Url.Content("~/");
+
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
+
+        var user = new ApplicationUser
+        {
+            UserName = Input.Email,
+            Email = Input.Email,
+            EmailConfirmed = true
+        };
+
+        var result = await UserManager.CreateAsync(user, Input.Password);
+
+        if (result.Succeeded)
+        {
+            await SignInManager.SignInAsync(user, isPersistent: false);
+            return LocalRedirect(ReturnUrl);
+        }
+
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+
+        return Page();
+    }
+}
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<section class="auth-page">
+    <div class="container">
+
+        <div class="auth-card">
+
+            <div class="auth-left register-left">
+                <div class="auth-brand">
+                    <img src="~/images/logo.png" alt="SHOPORA Logo" />
+                    <h2>SHOPORA</h2>
+                </div>
+
+                <div class="auth-left-content">
+                    <h1>Create your account</h1>
+                    <p>
+                        Join SHOPORA and start exploring products, adding items to cart, and placing orders easily.
+                    </p>
+                </div>
+
+                <div class="auth-features">
+                    <div>
+                        <i class="bi bi-person-plus"></i>
+                        <span>Quick registration</span>
+                    </div>
+
+                    <div>
+                        <i class="bi bi-bag-heart"></i>
+                        <span>Save your shopping</span>
+                    </div>
+
+                    <div>
+                        <i class="bi bi-truck"></i>
+                        <span>Easy checkout</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="auth-right">
+                <div class="auth-form-header">
+                    <span class="auth-kicker">
+                        <i class="bi bi-person-plus"></i>
+                        New customer
+                    </span>
+
+                    <h2>Create your account</h2>
+                    <p>Register now and start shopping with SHOPORA.</p>
+                </div>
+
+                <form method="post" class="auth-form">
+                    <input type="hidden" name="returnUrl" value="@ReturnUrl" />
+
+                    <div asp-validation-summary="ModelOnly" class="auth-validation"></div>
+
+                    <div class="auth-group">
+                        <label asp-for="Input.Email">Email address</label>
+
+                        <div class="auth-input">
+                            <i class="bi bi-envelope"></i>
+                            <input asp-for="Input.Email"
+                                   autocomplete="username"
+                                   placeholder="Enter your email" />
+                        </div>
+
+                        <span asp-validation-for="Input.Email" class="auth-field-validation"></span>
+                    </div>
+
+                    <div class="auth-group">
+                        <label asp-for="Input.Password">Password</label>
+
+                        <div class="auth-input">
+                            <i class="bi bi-lock"></i>
+                            <input asp-for="Input.Password"
+                                   autocomplete="new-password"
+                                   placeholder="Create password" />
+                        </div>
+
+                        <span asp-validation-for="Input.Password" class="auth-field-validation"></span>
+                    </div>
+
+                    <div class="auth-group">
+                        <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+
+                        <div class="auth-input">
+                            <i class="bi bi-shield-lock"></i>
+                            <input asp-for="Input.ConfirmPassword"
+                                   autocomplete="new-password"
+                                   placeholder="Confirm password" />
+                        </div>
+
+                        <span asp-validation-for="Input.ConfirmPassword" class="auth-field-validation"></span>
+                    </div>
+
+                    <button type="submit" class="auth-submit-btn">
+                        <i class="bi bi-person-plus"></i>
+                        Create Account
+                    </button>
+
+                    <div class="auth-bottom-text">
+                        <p>
+                            Already have an account?
+                            <a asp-page="./Login" asp-route-returnUrl="@ReturnUrl">Login here</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

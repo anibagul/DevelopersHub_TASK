@@ -1,0 +1,129 @@
+﻿@model IEnumerable<EcommerceProject.Models.Product>
+
+@{
+    ViewData["Title"] = "Manage Products";
+}
+
+<section class="product-manage-page">
+    <div class="container">
+
+        <div class="product-manage-header">
+            <div>
+                <p class="product-manage-subtitle">Admin / Products</p>
+                <h1>Manage Products</h1>
+            </div>
+
+            <div class="product-manage-actions">
+                <a asp-controller="Admin" asp-action="Index" class="manage-secondary-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Dashboard
+                </a>
+
+                <a asp-controller="Products" asp-action="Create" class="manage-primary-btn">
+                    <i class="bi bi-plus-circle"></i>
+                    Add Product
+                </a>
+            </div>
+        </div>
+
+        <div class="product-manage-panel">
+            <div class="manage-panel-header">
+                <div>
+                    <h2>Products List</h2>
+                    <p>Total products: @(Model?.Count() ?? 0)</p>
+                </div>
+            </div>
+
+            <div class="product-table-wrap">
+                <table class="product-manage-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var product in Model)
+                            {
+                                var imagePath = string.IsNullOrWhiteSpace(product.ImageUrl)
+                                ? "/images/products/phone.png"
+                                : product.ImageUrl;
+
+                                <tr>
+                                    <td>
+                                        <div class="manage-product-cell">
+                                            <img src="@imagePath" alt="@product.Name" />
+
+                                            <div>
+                                                <strong>@product.Name</strong>
+                                                <small>ID: #@product.Id</small>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>@(product.Category?.Name ?? "No category")</td>
+
+                                    <td>$@product.Price.ToString("0.00")</td>
+
+                                    <td>@product.Stock</td>
+
+                                    <td>
+                                        @if (product.IsActive)
+                                        {
+                                            <span class="product-status active">Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="product-status inactive">Inactive</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="manage-table-actions">
+                                            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="table-action view" title="View">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+
+                                            <a asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id" class="table-action edit" title="Edit">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+
+                                            <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="table-action delete" title="Delete">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="empty-product-table">
+                                    <div>
+                                        <i class="bi bi-box-seam"></i>
+                                        <h3>No products found</h3>
+                                        <p>Add your first product to start showing it on the store.</p>
+
+                                        <a asp-controller="Products" asp-action="Create" class="manage-primary-btn">
+                                            <i class="bi bi-plus-circle"></i>
+                                            Add Product
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,175 @@
+﻿@model IEnumerable<EcommerceProject.Models.CartItem>
+
+@{
+    ViewData["Title"] = "My Cart";
+
+    var cartItems = Model?.ToList() ?? new List<EcommerceProject.Models.CartItem>();
+
+    decimal subtotal = cartItems.Sum(item =>
+        (item.Product?.Price ?? 0) * item.Quantity
+    );
+
+    decimal discount = subtotal > 100 ? 10 : 0;
+    decimal tax = subtotal * 0.05m;
+    decimal total = subtotal - discount + tax;
+}
+
+<section class="cart-page">
+    <div class="container">
+
+        <div class="cart-header">
+            <div>
+                <p class="cart-subtitle">Shopping Cart</p>
+                <h1>My Cart</h1>
+            </div>
+
+            <a asp-controller="Products" asp-action="Index" class="continue-shopping-btn">
+                <i class="bi bi-arrow-left"></i>
+                Continue Shopping
+            </a>
+        </div>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="cart-alert success">
+                <i class="bi bi-check-circle"></i>
+                @TempData["Success"]
+            </div>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="cart-alert error">
+                <i class="bi bi-exclamation-circle"></i>
+                @TempData["Error"]
+            </div>
+        }
+
+        @if (cartItems.Any())
+        {
+            <div class="cart-layout">
+
+                <!-- Cart Items -->
+                <div class="cart-items-card">
+
+                    <div class="cart-items-title">
+                        <h2>Cart Items</h2>
+                        <p>@cartItems.Count item(s)</p>
+                    </div>
+
+                    @foreach (var item in cartItems)
+                    {
+                        var product = item.Product;
+                        var imagePath = string.IsNullOrWhiteSpace(product?.ImageUrl)
+                        ? "/images/products/phone.png"
+                        : product.ImageUrl;
+
+                        var itemTotal = (product?.Price ?? 0) * item.Quantity;
+
+                        <div class="cart-item">
+                            <div class="cart-product-info">
+                                <img src="@imagePath" alt="@(product?.Name ?? "Product")" />
+
+                                <div>
+                                    <h3>@(product?.Name ?? "Product not found")</h3>
+                                    <p>@(product?.Category?.Name ?? "Product")</p>
+
+                                    <form asp-controller="CartItems" asp-action="Remove" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@item.Id" />
+
+                                        <button type="submit" class="remove-cart-btn">
+                                            <i class="bi bi-trash"></i>
+                                            Remove
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="cart-product-actions">
+                                <h4>$@(product?.Price.ToString("0.00") ?? "0.00")</h4>
+
+                                <form asp-controller="CartItems" asp-action="UpdateQuantity" method="post" class="quantity-form">
+                                    @Html.AntiForgeryToken()
+
+                                    <input type="hidden" name="id" value="@item.Id" />
+
+                                    <input type="number"
+                                           name="quantity"
+                                           value="@item.Quantity"
+                                           min="1"
+                                           max="@(product?.Stock ?? 100)" />
+
+                                    <button type="submit">
+                                        Update
+                                    </button>
+                                </form>
+
+                                <p class="cart-item-total">
+                                    Total: <strong>$@itemTotal.ToString("0.00")</strong>
+                                </p>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="cart-bottom-actions">
+                        <a asp-controller="Products" asp-action="Index" class="continue-shopping-btn">
+                            <i class="bi bi-arrow-left"></i>
+                            Back to shop
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- Summary -->
+                <aside class="cart-summary-card">
+                    <h2>Summary</h2>
+
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <strong>$@subtotal.ToString("0.00")</strong>
+                    </div>
+
+                    <div class="summary-row discount">
+                        <span>Discount</span>
+                        <strong>-$@discount.ToString("0.00")</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <strong>$@tax.ToString("0.00")</strong>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>Total</span>
+                        <strong>$@total.ToString("0.00")</strong>
+                    </div>
+
+                    <a asp-controller="Checkout" asp-action="Index" class="checkout-btn">
+                        Checkout
+                    </a>
+
+                    <div class="payment-icons">
+                        <span>Visa</span>
+                        <span>Master</span>
+                        <span>PayPal</span>
+                    </div>
+                </aside>
+
+            </div>
+        }
+        else
+        {
+            <div class="empty-cart">
+                <i class="bi bi-cart-x"></i>
+                <h2>Your cart is empty</h2>
+                <p>Add products to your cart and they will appear here.</p>
+
+                <a asp-controller="Products" asp-action="Index" class="checkout-btn">
+                    Start Shopping
+                </a>
+            </div>
+        }
+
+    </div>
+</section>

@@ -1,0 +1,479 @@
+﻿@model EcommerceProject.Models.ViewModels.HomeViewModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<section class="home-page">
+
+    <!-- Hero Section -->
+    <div class="container">
+        <div class="hero-section">
+
+            <!-- Left Categories -->
+            <aside class="hero-categories">
+                <a asp-controller="Products" asp-action="Index" asp-route-category="Automobiles">Automobiles</a>
+                <a asp-controller="Products" asp-action="Index" asp-route-category="Clothes and wear">Clothes and wear</a>
+                <a asp-controller="Products" asp-action="Index" asp-route-category="Home interiors">Home interiors</a>
+                <a asp-controller="Products" asp-action="Index" asp-route-category="Computer and tech">Computer and tech</a>
+                <a asp-controller="Products" asp-action="Index" asp-route-category="Tools, equipments">Tools, equipments</a>
+                <a asp-controller="Products" asp-action="Index" asp-route-category="Sports and outdoor">Sports and outdoor</a>
+                <a asp-controller="Products" asp-action="Index" asp-route-category="Animal and pets">Animal and pets</a>
+                <a asp-controller="Products" asp-action="Index" asp-route-category="Machinery tools">Machinery tools</a>
+                <a asp-controller="Products" asp-action="Index" asp-route-category="More category">More category</a>
+            </aside>
+            <!-- Main Banner -->
+            <div class="hero-banner" style="background-image: url('/images/Hero.png');">
+                <div class="hero-banner-content">
+                    <p>Latest trending</p>
+                    <h1>Electronic items</h1>
+                    <a asp-controller="Products" asp-action="Index" class="hero-btn">Learn more</a>
+                </div>
+            </div>
+
+            <!-- Right User Card -->
+            <aside class="hero-user-box">
+                <div class="user-card">
+                    <div class="user-top">
+                        <div class="user-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <p>
+                            Hi, user <br />
+                            let's get started
+                        </p>
+                    </div>
+
+                    <a asp-area="Identity" asp-page="/Account/Register" class="join-btn">Join now</a>
+                    <a asp-area="Identity" asp-page="/Account/Login" class="login-btn">Log in</a>
+                </div>
+
+                <div class="promo-card orange">
+                    Get US $10 off with a new supplier
+                </div>
+
+                <div class="promo-card teal">
+                    Send quotes with supplier preferences
+                </div>
+            </aside>
+
+        </div>
+    </div>
+
+    <!-- Deals and Offers -->
+    <div class="container">
+        <section class="deals-section">
+            <div class="deals-info">
+                <h2>Deals and offers</h2>
+                <p>Hygiene equipments</p>
+
+                <div class="timer-box">
+                    <div>
+                        <strong>04</strong>
+                        <span>Days</span>
+                    </div>
+                    <div>
+                        <strong>13</strong>
+                        <span>Hour</span>
+                    </div>
+                    <div>
+                        <strong>34</strong>
+                        <span>Min</span>
+                    </div>
+                    <div>
+                        <strong>56</strong>
+                        <span>Sec</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deal-products">
+                <div class="deal-item">
+                    <img src="~/images/watch.png" alt="Smart watch" />
+                    <h4>Smart watches</h4>
+                    <span>-25%</span>
+                </div>
+
+				<div class="deal-item">
+                    <img src="~/images/laptop.png" alt="Laptop" />
+                    <h4>Laptops</h4>
+                    <span>-15%</span>
+                </div>
+
+                <div class="deal-item">
+                    <img src="~/images/Camera.png" alt="Camera" />
+                    <h4>GoPro cameras</h4>
+                    <span>-40%</span>
+                </div>
+
+                <div class="deal-item">
+                    <img src="~/images/headphones.png" alt="Headphones" />
+                    <h4>Headphones</h4>
+                    <span>-25%</span>
+                </div>
+
+                <div class="deal-item">
+                    <img src="~/images/phone.png" alt="Phone" />
+                    <h4>Canon cameras</h4>
+                    <span>-25%</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Home and Outdoor -->
+    <div class="container">
+        <section class="category-section">
+            <div class="category-banner home-banner" style="background-image: url('/images/home and decore.jpg');">
+                <h2>Home and outdoor</h2>
+                <a asp-controller="Products" asp-action="Index">Source now</a>
+            </div>
+
+            <div class="category-products">
+                <div class="category-item">
+                    <h4>Soft chairs</h4>
+                    <p>From USD 19</p>
+                    <img src="~/images/Soft chair.png" alt="Soft chairs" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Sofa & chair</h4>
+                    <p>From USD 19</p>
+                    <img src="~/images/lamp.png" alt="Sofa" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Kitchen dishes</h4>
+                    <p>From USD 19</p>
+                    <img src="~/images/Kitchen dishes.png" alt="Kitchen" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Smart watches</h4>
+                    <p>From USD 19</p>
+                    <img src="~/images/jar.png" alt="Watch" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Kitchen mixer</h4>
+                    <p>From USD 100</p>
+                    <img src="~/images/kitchen mixer.png" alt="Mixer" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Blenders</h4>
+                    <p>From USD 39</p>
+                    <img src="~/images/kitchen blender.png" alt="Blenders" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Home appliance</h4>
+                    <p>From USD 19</p>
+                    <img src="~/images/Home appliance.jpg" alt="Appliance" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Coffee maker</h4>
+                    <p>From USD 10</p>
+                    <img src="~/images/tree.png" alt="Coffee maker" />
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Electronics -->
+    <div class="container">
+        <section class="category-section">
+            <div class="category-banner electronics-banner" style="background-image: url('/images/Electronics.png');">
+                <h2>Consumer electronics and gadgets</h2>
+                <a asp-controller="Products" asp-action="Index">Source now</a>
+            </div>
+
+            <div class="category-products">
+                <div class="category-item">
+                    <h4>Smart watches</h4>
+                    <p>From USD 19</p>
+                    <img src="~/images/watch.png" alt="Watch" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Cameras</h4>
+                    <p>From USD 89</p>
+                    <img src="~/images/camera.png" alt="Camera" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Headphones</h4>
+                    <p>From USD 10</p>
+                    <img src="~/images/headphone2.png" alt="Headphone" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Smart phones</h4>
+                    <p>From USD 99</p>
+                    <img src="~/images/phone2.png" alt="Phone" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Gaming set</h4>
+                    <p>From USD 35</p>
+                    <img src="~/images/headphone3.png" alt="Gaming" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Laptops & PC</h4>
+                    <p>From USD 340</p>
+                    <img src="~/images/laptop.png" alt="Laptop" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Android phones</h4>
+                    <p>From USD 90</p>
+                    <img src="~/images/phone3.png" alt="Watch" />
+                </div>
+
+                <div class="category-item">
+                    <h4>Electric kettle</h4>
+                    <p>From USD 240</p>
+                    <img src="~/images/cattale.png" alt="Kettle" />
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Request Quote Section -->
+    <div class="container">
+        <section class="quote-section">
+            <div class="quote-content">
+                <h2>An easy way to send requests to all suppliers</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
+                </p>
+            </div>
+
+            <div class="quote-form-box">
+                <h3>Send quote to suppliers</h3>
+
+                <form>
+                    <input type="text" placeholder="What item you need?" />
+                    <textarea placeholder="Type more details"></textarea>
+
+                    <div class="quote-row">
+                        <input type="number" placeholder="Quantity" />
+                        <select>
+                            <option>Pcs</option>
+                            <option>Kg</option>
+                            <option>Box</option>
+                        </select>
+                    </div>
+
+                    <button type="button">Send inquiry</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Recommended Items -->
+    <div class="container">
+        <section class="recommended-section">
+            <h2>Recommended items</h2>
+
+            <div class="recommended-grid">
+
+                <a asp-controller="Products" asp-action="Details" asp-route-id="1" class="product-card">
+                    <img src="~/images/shirt.png" alt="T-shirt" />
+                    <h4>$10.30</h4>
+                    <p>T-shirts with multiple colors, for men</p>
+                </a>
+
+                <a asp-controller="Products" asp-action="Details" asp-route-id="2" class="product-card">
+                    <img src="~/images/hoodie.jpg" alt="Jacket" />
+                    <h4>$10.30</h4>
+                    <p>Jeans shorts for men blue color</p>
+                </a>
+
+                <a asp-controller="Products" asp-action="Details" asp-route-id="3" class="product-card">
+                    <img src="~/images/jacket.png" alt="Suit" />
+                    <h4>$12.50</h4>
+                    <p>Brown winter coat medium size</p>
+                </a>
+
+                <a asp-controller="Products" asp-action="Details" asp-route-id="4" class="product-card">
+                    <img src="~/images/wallet.png" alt="Wallet" />
+                    <h4>$34.00</h4>
+                    <p>Jeans bag for travel for men</p>
+                </a>
+
+                <a asp-controller="Products" asp-action="Details" asp-route-id="5" class="product-card">
+                    <img src="~/images/bag.png" alt="Bag" />
+                    <h4>$99.00</h4>
+                    <p>Leather wallet</p>
+                </a>
+
+                <a asp-controller="Product" asp-action="Details" asp-route-id="6" class="product-card">
+                    <img src="~/images/paint.png" alt="Shorts" />
+                    <h4>$9.99</h4>
+                    <p>Canon camera black, 100x zoom</p>
+                </a>
+
+                <a asp-controller="Products" asp-action="Details" asp-route-id="7" class="product-card">
+                    <img src="~/images/headphone3.png" alt="Headphone" />
+                    <h4>$8.99</h4>
+                    <p>Headset for gaming with mic</p>
+                </a>
+
+                <a asp-controller="Products" asp-action="Details" asp-route-id="8" class="product-card">
+                    <img src="~/images/watch.png" alt="Backpack" />
+                    <h4>$10.30</h4>
+                    <p>Smartwatch silver color modern</p>
+                </a>
+
+                <a asp-controller="Products" asp-action="Details" asp-route-id="9" class="product-card">
+                    <img src="~/images/Jar.png" alt="Pot" />
+                    <h4>$10.30</h4>
+                    <p>Blue wallet for men leather meterfial</p>
+                </a>
+
+                <a asp-controller="Products" asp-action="Details" asp-route-id="10" class="product-card">
+                    <img src="~/images/cattale.png" alt="Kettle" />
+                    <h4>$80.95</h4>
+                    <p>Jeans bag for travel for men</p>
+                </a>
+
+            </div>
+        </section>
+    </div>
+
+    <!-- Services -->
+    <div class="container">
+        <section class="services-section">
+            <h2>Our extra services</h2>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <img src="~/images/industry.png" alt="Service" />
+                    <div class="service-info">
+                        <h4>Source from Industry Hubs</h4>
+                        <span><i class="bi bi-search"></i></span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <img src="~/images/custamize products.png" alt="Service" />
+                    <div class="service-info">
+                        <h4>Customize Your Products</h4>
+                        <span><i class="bi bi-box-seam"></i></span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <img src="~/images/airoplane.png" alt="Service" />
+                    <div class="service-info">
+                        <h4>Fast, reliable shipping</h4>
+                        <span><i class="bi bi-send"></i></span>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <img src="~/images/product monitering.png" alt="Service" />
+                    <div class="service-info">
+                        <h4>Product monitoring</h4>
+                        <span><i class="bi bi-shield-check"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Suppliers -->
+    <div class="container">
+        <section class="suppliers-section">
+            <h2>Suppliers by region</h2>
+
+            <div class="suppliers-grid">
+
+                <a href="#" class="supplier-item">
+                    <img src="~/images/arabic.png" alt="Arabic Emirates flag" />
+                    <p>
+                        Arabic Emirates
+                        <small>shopname.ae</small>
+                    </p>
+                </a>
+
+                <a href="#" class="supplier-item">
+                    <img src="~/images/australia.png" alt="Australia flag" />
+                    <p>
+                        Australia
+                        <small>shopname.ae</small>
+                    </p>
+                </a>
+
+                <a href="#" class="supplier-item">
+                    <img src="~/images/US.png" alt="United States flag" />
+                    <p>
+                        United States
+                        <small>shopname.ae</small>
+                    </p>
+                </a>
+
+                <a href="#" class="supplier-item">
+                    <img src="~/images/russia.png" alt="Russia flag" />
+                    <p>
+                        Russia
+                        <small>shopname.ru</small>
+                    </p>
+                </a>
+
+                <a href="#" class="supplier-item">
+                    <img src="~/images/italy.png" alt="Italy flag" />
+                    <p>
+                        Italy
+                        <small>shopname.it</small>
+                    </p>
+                </a>
+
+                <a href="#" class="supplier-item">
+                    <img src="~/images/denmark.png" alt="Denmark flag" />
+                    <p>
+                        Denmark
+                        <small>denmark.com.dk</small>
+                    </p>
+                </a>
+
+                <a href="#" class="supplier-item">
+                    <img src="~/images/france.png" alt="France flag" />
+                    <p>
+                        France
+                        <small>shopname.com.fr</small>
+                    </p>
+                </a>
+
+                <a href="#" class="supplier-item">
+                    <img src="~/images/arabic.png" alt="Arabic Emirates flag" />
+                    <p>
+                        Arabic Emirates
+                        <small>shopname.ae</small>
+                    </p>
+                </a>
+
+                <a href="#" class="supplier-item">
+                    <img src="~/images/china.png" alt="China flag" />
+                    <p>
+                        China
+                        <small>shopname.ae</small>
+                    </p>
+                </a>
+
+                <a href="#" class="supplier-item">
+                    <img src="~/images/british.png" alt="Great Britain flag" />
+                    <p>
+                        Great Britain
+                        <small>shopname.co.uk</small>
+                    </p>
+                </a>
+
+            </div>
+        </section>
+    </div>
+
+</section>

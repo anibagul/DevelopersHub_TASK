@@ -1,0 +1,253 @@
+﻿<header class="main-header">
+
+    <!-- Top Header -->
+    <div class="top-header">
+        <div class="container">
+            <div class="header-flex">
+
+                <!-- Mobile Menu Button -->
+                <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <!-- Brand -->
+                <a asp-controller="Home" asp-action="Index" class="brand-logo">
+                    <img src="~/images/logo.png" alt="Brand Logo" class="brand-img" />
+                    <span class="brand-name">SHOPORA</span>
+                </a>
+
+                <!-- Search -->
+                <form asp-controller="Products" asp-action="Index" method="get" class="search-box">
+                    <input type="text" name="search" placeholder="Search" />
+
+                    <select name="category">
+                        <option value="">All category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Clothes and wear">Clothes and wear</option>
+                        <option value="Home interiors">Home interiors</option>
+                        <option value="Computer and tech">Computer and tech</option>
+                    </select>
+
+                    <button type="submit">Search</button>
+                </form>
+
+                <!-- Header Right Icons -->
+                <div class="header-actions">
+
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Home" asp-action="Index" class="header-action-item">
+                            <i class="bi bi-person-fill"></i>
+                            <span>Profile</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Login" class="header-action-item">
+                            <i class="bi bi-person-fill"></i>
+                            <span>Login</span>
+                        </a>
+                    }
+
+                    <a href="#" class="header-action-item mobile-hide">
+                        <i class="bi bi-chat-left-text-fill"></i>
+                        <span>Message</span>
+                    </a>
+
+                    <a href="#" class="header-action-item mobile-hide">
+                        <i class="bi bi-heart-fill"></i>
+                        <span>Orders</span>
+                    </a>
+
+                    <a asp-controller="CartItems" asp-action="Index" class="header-action-item cart-link">
+                        <i class="bi bi-cart-fill"></i>
+                        <span>My cart</span>
+                    </a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Admin" asp-action="Index" class="header-action-item admin-header-link">
+                            <i class="bi bi-person-badge-fill"></i>
+                            <span>Admin</span>
+                        </a>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Navbar -->
+    <nav class="nav-menu">
+        <div class="container">
+            <div class="nav-flex">
+
+                <div class="nav-left">
+                    <a asp-controller="Products" asp-action="Index" class="nav-link-item nav-category">
+                        <i class="bi bi-list"></i>
+                        <span>All category</span>
+                    </a>
+
+                    <a asp-controller="Products" asp-action="Index" class="nav-link-item">Hot offers</a>
+                    <a asp-controller="Products" asp-action="Index" class="nav-link-item">Gift boxes</a>
+                    <a asp-controller="Products" asp-action="Index" class="nav-link-item">Projects</a>
+                    <a asp-controller="Products" asp-action="Index" class="nav-link-item">Menu item</a>
+
+                    <a href="#" class="nav-link-item">
+                        Help
+                        <i class="bi bi-chevron-down small-chevron"></i>
+                    </a>
+                </div>
+
+                <div class="nav-right">
+                    <a href="#" class="nav-link-item">
+                        English, USD
+                        <i class="bi bi-chevron-down small-chevron"></i>
+                    </a>
+
+                    <a href="#" class="nav-link-item ship-link">
+                        Ship to
+                        <span class="flag-box"></span>
+                        <i class="bi bi-chevron-down small-chevron"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+</header>
+
+<!-- Mobile Drawer Overlay -->
+<div class="mobile-drawer-overlay" id="mobileDrawerOverlay"></div>
+
+<!-- Mobile Drawer -->
+<aside class="mobile-drawer" id="mobileDrawer">
+
+    <div class="mobile-drawer-header">
+        <div class="drawer-user">
+            <div class="drawer-avatar">
+                <i class="bi bi-person-fill"></i>
+            </div>
+
+            <div>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <p>Welcome</p>
+                    <strong>@User.Identity.Name</strong>
+                }
+                else
+                {
+                    <p>
+                        <a asp-area="Identity" asp-page="/Account/Login">Sign in</a>
+                        |
+                        <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    </p>
+                }
+            </div>
+        </div>
+
+        <button type="button" class="mobile-drawer-close" id="mobileDrawerClose" aria-label="Close menu">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <nav class="mobile-drawer-nav">
+
+        <a asp-controller="Home" asp-action="Index">
+            <i class="bi bi-house-door"></i>
+            Home
+        </a>
+
+        <a asp-controller="Products" asp-action="Index">
+            <i class="bi bi-list-ul"></i>
+            Categories
+        </a>
+
+        <a asp-controller="Products" asp-action="Index">
+            <i class="bi bi-heart"></i>
+            Favorites
+        </a>
+
+        <a asp-controller="CartItems" asp-action="Index">
+            <i class="bi bi-cart"></i>
+            My cart
+        </a>
+
+        <a asp-controller="CartItems" asp-action="Index">
+            <i class="bi bi-bag"></i>
+            My orders
+        </a>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-controller="Admin" asp-action="Index">
+                <i class="bi bi-person-badge-fill"></i>
+                Admin Panel
+            </a>
+        }
+
+        <hr />
+
+        <a href="#">
+            <i class="bi bi-globe"></i>
+            English | USD
+        </a>
+
+        <a href="#">
+            <i class="bi bi-headset"></i>
+            Contact us
+        </a>
+
+        <a href="#">
+            <i class="bi bi-info-circle"></i>
+            About
+        </a>
+
+        <hr />
+
+        <a href="#">User agreement</a>
+        <a href="#">Partnership</a>
+        <a href="#">Privacy policy</a>
+
+    </nav>
+
+</aside>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuBtn = document.getElementById("mobileMenuBtn");
+        const drawer = document.getElementById("mobileDrawer");
+        const overlay = document.getElementById("mobileDrawerOverlay");
+        const closeBtn = document.getElementById("mobileDrawerClose");
+
+        function openDrawer() {
+            if (!drawer || !overlay) return;
+
+            drawer.classList.add("active");
+            overlay.classList.add("active");
+            document.body.classList.add("drawer-open");
+        }
+
+        function closeDrawer() {
+            if (!drawer || !overlay) return;
+
+            drawer.classList.remove("active");
+            overlay.classList.remove("active");
+            document.body.classList.remove("drawer-open");
+        }
+
+        if (menuBtn) {
+            menuBtn.addEventListener("click", openDrawer);
+        }
+
+        if (overlay) {
+            overlay.addEventListener("click", closeDrawer);
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener("click", closeDrawer);
+        }
+    });
+</script>

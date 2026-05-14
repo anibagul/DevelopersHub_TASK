@@ -1,0 +1,334 @@
+﻿@model EcommerceProject.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name;
+
+    var imagePath = string.IsNullOrWhiteSpace(Model.ImageUrl)
+        ? "/images/products/phone.png"
+        : Model.ImageUrl;
+
+    var categoryName = Model.Category?.Name ?? "Product";
+    var stockText = Model.Stock > 0 ? "In stock" : "Out of stock";
+    var stockClass = Model.Stock > 0 ? "stock-status" : "stock-status out-of-stock";
+
+    var secondPrice = Model.Price > 10 ? Model.Price - 8 : Model.Price;
+    var thirdPrice = Model.Price > 20 ? Model.Price - 20 : Model.Price;
+}
+
+<section class="product-details-page">
+    <div class="container">
+
+        <!-- Breadcrumb -->
+        <div class="pd-breadcrumb">
+            <a asp-controller="Home" asp-action="Index">Home</a>
+            <span><i class="bi bi-chevron-right"></i></span>
+            <a asp-controller="Products" asp-action="Index">Products</a>
+            <span><i class="bi bi-chevron-right"></i></span>
+            <a asp-controller="Products" asp-action="Index">@categoryName</a>
+            <span><i class="bi bi-chevron-right"></i></span>
+            <p>@Model.Name</p>
+        </div>
+
+        <!-- Main Product Card -->
+        <div class="pd-main-card">
+
+            <!-- Gallery -->
+            <div class="pd-gallery">
+                <div class="pd-main-image">
+                    <img src="@imagePath" alt="@Model.Name" />
+                </div>
+
+                <div class="pd-thumbnails">
+                    <button type="button" class="active">
+                        <img src="@imagePath" alt="@Model.Name" />
+                    </button>
+                    <button type="button">
+                        <img src="@imagePath" alt="@Model.Name" />
+                    </button>
+                    <button type="button">
+                        <img src="@imagePath" alt="@Model.Name" />
+                    </button>
+                    <button type="button">
+                        <img src="@imagePath" alt="@Model.Name" />
+                    </button>
+                    <button type="button">
+                        <img src="@imagePath" alt="@Model.Name" />
+                    </button>
+                    <button type="button">
+                        <img src="@imagePath" alt="@Model.Name" />
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="pd-info">
+                <p class="@stockClass">
+                    @if (Model.Stock > 0)
+                    {
+                        <i class="bi bi-check2"></i>
+                    }
+                    else
+                    {
+                        <i class="bi bi-x-circle"></i>
+                    }
+                    @stockText
+                </p>
+
+                <h1>@Model.Name</h1>
+
+                <div class="pd-rating">
+                    <span class="stars">★★★★☆</span>
+                    <strong>9.3</strong>
+                    <small><i class="bi bi-chat-left-text"></i> 32 reviews</small>
+                    <small><i class="bi bi-basket"></i> 154 sold</small>
+                </div>
+
+                <div class="pd-price-box">
+                    <div class="active-price">
+                        <h3>$@Model.Price.ToString("0.00")</h3>
+                        <p>1-50 pcs</p>
+                    </div>
+                    <div>
+                        <h3>$@secondPrice.ToString("0.00")</h3>
+                        <p>50-100 pcs</p>
+                    </div>
+                    <div>
+                        <h3>$@thirdPrice.ToString("0.00")</h3>
+                        <p>100+ pcs</p>
+                    </div>
+                </div>
+
+                <div class="pd-specs">
+                    <div>
+                        <span>Price:</span>
+                        <p>$@Model.Price.ToString("0.00")</p>
+                    </div>
+                    <div>
+                        <span>Category:</span>
+                        <p>@categoryName</p>
+                    </div>
+                    <div>
+                        <span>Stock:</span>
+                        <p>@Model.Stock items available</p>
+                    </div>
+                    <div>
+                        <span>Status:</span>
+                        <p>@(Model.IsActive ? "Active" : "Inactive")</p>
+                    </div>
+                    <div>
+                        <span>Material:</span>
+                        <p>Standard quality material</p>
+                    </div>
+                    <div>
+                        <span>Protection:</span>
+                        <p>Refund Policy</p>
+                    </div>
+                    <div>
+                        <span>Warranty:</span>
+                        <p>2 years full warranty</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Supplier Card -->
+            <aside class="supplier-card">
+                <div class="supplier-title">
+                    <div class="supplier-avatar">S</div>
+                    <div>
+                        <p>Supplier</p>
+                        <h4>SHOPORA Trading LLC</h4>
+                    </div>
+                </div>
+
+                <div class="supplier-meta">
+                    <p>
+                        <span class="flag-germany"></span>
+                        Germany, Berlin
+                    </p>
+                    <p><i class="bi bi-shield-check"></i> Verified Seller</p>
+                    <p><i class="bi bi-globe"></i> Worldwide shipping</p>
+                </div>
+
+                <form asp-controller="CartItems" asp-action="AddToCart" method="post" class="add-cart-form">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="productId" value="@Model.Id" />
+
+                    <div class="cart-qty-box">
+                        <label>Quantity</label>
+                        <input type="number" name="quantity" value="1" min="1" max="@Model.Stock" />
+                    </div>
+
+                    <button type="submit" class="add-to-cart-btn" @(Model.Stock <= 0 ? "disabled" : "")>
+                        <i class="bi bi-cart-plus"></i>
+                        Add to Cart
+                    </button>
+                </form>
+
+                <a href="#" class="send-inquiry-btn">Send inquiry</a>
+                <a href="#" class="seller-profile-btn">Seller’s profile</a>
+
+                <a href="#" class="save-later">
+                    <i class="bi bi-heart"></i>
+                    Save for later
+                </a>
+            </aside>
+
+        </div>
+
+        <!-- Details Layout -->
+        <div class="pd-details-layout">
+
+            <!-- Description Box -->
+            <div class="pd-description-card">
+                <div class="pd-tabs">
+                    <button type="button" class="active">Description</button>
+                    <button type="button">Reviews</button>
+                    <button type="button">Shipping</button>
+                    <button type="button">About seller</button>
+                </div>
+
+                <div class="pd-description-content">
+                    <p>
+                        @Model.Description
+                    </p>
+
+                    <p>
+                        This product belongs to the <strong>@categoryName</strong> category and is available with current stock quantity of
+                        <strong>@Model.Stock</strong>.
+                    </p>
+
+                    <table class="pd-table">
+                        <tr>
+                            <td>Product ID</td>
+                            <td>#@Model.Id</td>
+                        </tr>
+                        <tr>
+                            <td>Category</td>
+                            <td>@categoryName</td>
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td>$@Model.Price.ToString("0.00")</td>
+                        </tr>
+                        <tr>
+                            <td>Stock</td>
+                            <td>@Model.Stock items</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>@(Model.IsActive ? "Active" : "Inactive")</td>
+                        </tr>
+                    </table>
+
+                    <ul class="pd-feature-list">
+                        <li><i class="bi bi-check2"></i> High quality product available in store</li>
+                        <li><i class="bi bi-check2"></i> Fast and reliable shipping support</li>
+                        <li><i class="bi bi-check2"></i> Secure shopping and refund policy</li>
+                        <li><i class="bi bi-check2"></i> Verified product information</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- You May Like -->
+            <aside class="you-may-like">
+                <h3>You may like</h3>
+
+                <a asp-controller="Products" asp-action="Index" class="like-item">
+                    <img src="/images/products/phone.png" alt="Product" />
+                    <div>
+                        <p>Latest smartphones and accessories</p>
+                        <span>$20.00 - $99.50</span>
+                    </div>
+                </a>
+
+                <a asp-controller="Products" asp-action="Index" class="like-item">
+                    <img src="/images/products/laptop.png" alt="Product" />
+                    <div>
+                        <p>Modern laptops and devices</p>
+                        <span>$150.00 - $999.00</span>
+                    </div>
+                </a>
+
+                <a asp-controller="Products" asp-action="Index" class="like-item">
+                    <img src="/images/products/watch.png" alt="Product" />
+                    <div>
+                        <p>Smart watches collection</p>
+                        <span>$30.00 - $120.00</span>
+                    </div>
+                </a>
+
+                <a asp-controller="Products" asp-action="Index" class="like-item">
+                    <img src="/images/products/headphone.png" alt="Product" />
+                    <div>
+                        <p>Headphones and audio items</p>
+                        <span>$15.00 - $80.00</span>
+                    </div>
+                </a>
+
+                <a asp-controller="Products" asp-action="Index" class="like-item">
+                    <img src="/images/products/camera.png" alt="Product" />
+                    <div>
+                        <p>Cameras and accessories</p>
+                        <span>$50.00 - $500.00</span>
+                    </div>
+                </a>
+            </aside>
+
+        </div>
+
+        <!-- Related Products -->
+        <section class="related-products-section">
+            <h2>Related products</h2>
+
+            <div class="related-products-grid">
+                <a asp-controller="Products" asp-action="Index" class="related-card">
+                    <img src="/images/products/phone.png" alt="Phone" />
+                    <p>Smartphones and mobile accessories</p>
+                    <span>$32.00-$400.00</span>
+                </a>
+
+                <a asp-controller="Products" asp-action="Index" class="related-card">
+                    <img src="/images/products/watch.png" alt="Watch" />
+                    <p>Smart watch modern design</p>
+                    <span>$32.00-$140.00</span>
+                </a>
+
+                <a asp-controller="Products" asp-action="Index" class="related-card">
+                    <img src="/images/products/headphone.png" alt="Headphone" />
+                    <p>Headset for gaming and music</p>
+                    <span>$20.00-$90.00</span>
+                </a>
+
+                <a asp-controller="Products" asp-action="Index" class="related-card">
+                    <img src="/images/products/laptop.png" alt="Laptop" />
+                    <p>Laptops with latest features</p>
+                    <span>$320.00-$900.00</span>
+                </a>
+
+                <a asp-controller="Products" asp-action="Index" class="related-card">
+                    <img src="/images/products/camera.png" alt="Camera" />
+                    <p>Camera black 100x zoom</p>
+                    <span>$80.00-$500.00</span>
+                </a>
+
+                <a asp-controller="Products" asp-action="Index" class="related-card">
+                    <img src="@imagePath" alt="@Model.Name" />
+                    <p>@Model.Name</p>
+                    <span>$@Model.Price.ToString("0.00")</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Discount Banner -->
+        <section class="discount-banner">
+            <div>
+                <h2>Super discount on more than 100 USD</h2>
+                <p>Have you ever finally just write dummy info</p>
+            </div>
+
+            <a asp-controller="Products" asp-action="Index">Shop now</a>
+        </section>
+
+    </div>
+</section>

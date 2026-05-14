@@ -1,0 +1,112 @@
+﻿@model IEnumerable<EcommerceProject.Models.Category>
+
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<section class="category-admin-page">
+    <div class="container">
+
+        <div class="category-page-header">
+            <div>
+                <p class="category-subtitle">Admin / Categories</p>
+                <h1>Manage Categories</h1>
+            </div>
+
+            <div class="category-header-actions">
+                <a asp-controller="Admin" asp-action="Index" class="category-secondary-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Dashboard
+                </a>
+
+                <a asp-controller="Categories" asp-action="Create" class="category-primary-btn">
+                    <i class="bi bi-plus-circle"></i>
+                    Add Category
+                </a>
+            </div>
+        </div>
+
+        <div class="category-panel">
+
+            <div class="category-panel-header">
+                <div>
+                    <h2>Categories List</h2>
+                    <p>Total categories: @(Model?.Count() ?? 0)</p>
+                </div>
+            </div>
+
+            <div class="category-table-wrap">
+                <table class="category-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Category Name</th>
+                            <th>Products Count</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var category in Model)
+                            {
+                                <tr>
+                                    <td>#@category.Id</td>
+
+                                    <td>
+                                        <div class="category-name-cell">
+                                            <span class="category-icon">
+                                                <i class="bi bi-grid-3x3-gap-fill"></i>
+                                            </span>
+                                            <strong>@category.Name</strong>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        @(category.Products?.Count ?? 0)
+                                    </td>
+
+                                    <td>
+                                        <div class="category-actions">
+                                            <a asp-controller="Categories" asp-action="Details" asp-route-id="@category.Id" class="action-btn view">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+
+                                            <a asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id" class="action-btn edit">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+
+                                            <a asp-controller="Categories" asp-action="Delete" asp-route-id="@category.Id" class="action-btn delete">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="4" class="empty-category-table">
+                                    <div>
+                                        <i class="bi bi-folder-x"></i>
+                                        <h3>No categories found</h3>
+                                        <p>Create your first category to start adding products.</p>
+
+                                        <a asp-controller="Categories" asp-action="Create" class="category-primary-btn">
+                                            <i class="bi bi-plus-circle"></i>
+                                            Add Category
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</section>

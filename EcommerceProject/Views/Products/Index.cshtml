@@ -1,0 +1,345 @@
+﻿@model IEnumerable<EcommerceProject.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+    var products = Model?.ToList() ?? new List<EcommerceProject.Models.Product>();
+}
+
+<section class="product-list-page">
+    <div class="container">
+
+        <!-- Breadcrumb -->
+        <div class="pl-breadcrumb">
+            <a asp-controller="Home" asp-action="Index">Home</a>
+            <span><i class="bi bi-chevron-right"></i></span>
+            <a asp-controller="Products" asp-action="Index">Products</a>
+            <span><i class="bi bi-chevron-right"></i></span>
+            <p>Product listing</p>
+        </div>
+
+        <div class="pl-layout">
+
+            <!-- Left Sidebar Filters -->
+            <aside class="filter-sidebar">
+
+                <div class="filter-group">
+                    <div class="filter-title">
+                        <h4>Category</h4>
+                        <i class="bi bi-chevron-up"></i>
+                    </div>
+
+                    <a asp-controller="Products" asp-action="Index">All products</a>
+
+                    @foreach (var categoryName in products
+                                        .Where(p => p.Category != null)
+                                        .Select(p => p.Category!.Name)
+                                        .Distinct()
+                                        .Take(6))
+                    {
+                        <a href="#">@categoryName</a>
+                    }
+
+                    <a href="#" class="see-all">See all</a>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-title">
+                        <h4>Brands</h4>
+                        <i class="bi bi-chevron-up"></i>
+                    </div>
+
+                    <label><input type="checkbox" checked /> Samsung</label>
+                    <label><input type="checkbox" checked /> Apple</label>
+                    <label><input type="checkbox" /> Huawei</label>
+                    <label><input type="checkbox" checked /> Poco</label>
+                    <label><input type="checkbox" /> Lenovo</label>
+
+                    <a href="#" class="see-all">See all</a>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-title">
+                        <h4>Features</h4>
+                        <i class="bi bi-chevron-up"></i>
+                    </div>
+
+                    <label><input type="checkbox" checked /> Metallic</label>
+                    <label><input type="checkbox" /> Plastic cover</label>
+                    <label><input type="checkbox" /> 8GB Ram</label>
+                    <label><input type="checkbox" /> Super power</label>
+                    <label><input type="checkbox" /> Large Memory</label>
+
+                    <a href="#" class="see-all">See all</a>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-title">
+                        <h4>Price range</h4>
+                        <i class="bi bi-chevron-up"></i>
+                    </div>
+
+                    <div class="range-line">
+                        <span></span>
+                    </div>
+
+                    <div class="price-inputs">
+                        <div>
+                            <small>Min</small>
+                            <input type="number" placeholder="0" />
+                        </div>
+                        <div>
+                            <small>Max</small>
+                            <input type="number" placeholder="999999" />
+                        </div>
+                    </div>
+
+                    <button class="filter-apply-btn">Apply</button>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-title">
+                        <h4>Condition</h4>
+                        <i class="bi bi-chevron-up"></i>
+                    </div>
+
+                    <label><input type="radio" name="condition" checked /> Any</label>
+                    <label><input type="radio" name="condition" /> Refurbished</label>
+                    <label><input type="radio" name="condition" /> Brand new</label>
+                    <label><input type="radio" name="condition" /> Old items</label>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-title">
+                        <h4>Ratings</h4>
+                        <i class="bi bi-chevron-up"></i>
+                    </div>
+
+                    <label>
+                        <input type="checkbox" />
+                        <span class="rating-stars">★★★★★</span>
+                    </label>
+
+                    <label>
+                        <input type="checkbox" />
+                        <span class="rating-stars">★★★★<span class="muted-star">★</span></span>
+                    </label>
+
+                    <label>
+                        <input type="checkbox" />
+                        <span class="rating-stars">★★★<span class="muted-star">★★</span></span>
+                    </label>
+
+                    <label>
+                        <input type="checkbox" />
+                        <span class="rating-stars">★★<span class="muted-star">★★★</span></span>
+                    </label>
+                </div>
+
+            </aside>
+
+            <!-- Product Content -->
+            <div class="product-content">
+
+                <!-- Top Bar -->
+                <div class="product-topbar">
+                    <p>
+                        <strong>@products.Count items</strong> in <strong>Products</strong>
+                    </p>
+
+                    <div class="topbar-actions">
+                        <label class="verified-check">
+                            <input type="checkbox" />
+                            Verified only
+                        </label>
+
+                        <select>
+                            <option>Featured</option>
+                            <option>Newest</option>
+                            <option>Price low to high</option>
+                            <option>Price high to low</option>
+                        </select>
+
+                        <div class="view-buttons">
+                            <button type="button" class="view-btn active" id="gridViewBtn" title="Grid view">
+                                <i class="bi bi-grid-fill"></i>
+                            </button>
+                            <button type="button" class="view-btn" id="listViewBtn" title="List view">
+                                <i class="bi bi-list-ul"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Chips -->
+                <div class="filter-chips" id="filterChips">
+                    <span>Verified <i class="bi bi-x"></i></span>
+                    <span>In stock <i class="bi bi-x"></i></span>
+                    <span>4 star <i class="bi bi-x"></i></span>
+                    <a href="#">Clear all filter</a>
+                </div>
+
+                <!-- Grid View -->
+                <div class="products-grid-view" id="productsGridView">
+
+                    @if (products.Any())
+                    {
+                        foreach (var product in products)
+                        {
+                            var imagePath = string.IsNullOrWhiteSpace(product.ImageUrl)
+                            ? "/images/products/phone.png"
+                            : product.ImageUrl;
+
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="grid-product-card">
+                                <div class="grid-img-box">
+                                    <img src="@imagePath" alt="@product.Name" />
+                                </div>
+
+                                <div class="grid-info">
+                                    <div class="grid-price-row">
+                                        <h4>$@product.Price.ToString("0.00")</h4>
+
+                                        <button type="button" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    </div>
+
+                                    <p class="old-price">$@((product.Price + 100).ToString("0.00"))</p>
+
+                                    <div class="rating-row">
+                                        <span>★★★★☆</span>
+                                        <small>7.5</small>
+                                    </div>
+
+                                    <p class="grid-title">@product.Name</p>
+
+                                    @if (product.Category != null)
+                                    {
+                                        <p class="grid-category">@product.Category.Name</p>
+                                    }
+                                </div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-products">
+                            <i class="bi bi-box-seam"></i>
+                            <h3>No products found</h3>
+                            <p>Please add products from admin dashboard.</p>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Products" asp-action="Create">Add Product</a>
+                            }
+                        </div>
+                    }
+
+                </div>
+
+                <!-- List View -->
+                <div class="products-list-view" id="productsListView">
+
+                    @if (products.Any())
+                    {
+                        foreach (var product in products)
+                        {
+                            var imagePath = string.IsNullOrWhiteSpace(product.ImageUrl)
+                            ? "/images/products/phone.png"
+                            : product.ImageUrl;
+
+                            var shortDescription = string.IsNullOrWhiteSpace(product.Description)
+                            ? "No description available."
+                            : product.Description.Length > 160
+                            ? product.Description.Substring(0, 160) + "..."
+                            : product.Description;
+
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="list-product-card">
+                                <div class="list-img-box">
+                                    <img src="@imagePath" alt="@product.Name" />
+                                </div>
+
+                                <div class="list-info">
+                                    <div class="list-title-row">
+                                        <h3>@product.Name</h3>
+
+                                        <button type="button" onclick="event.preventDefault(); event.stopPropagation();">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    </div>
+
+                                    <h4>$@product.Price.ToString("0.00")</h4>
+
+                                    <div class="list-rating-row">
+                                        <span>★★★★☆</span>
+                                        <small>7.5</small>
+                                        <small>@product.Stock in stock</small>
+                                        <strong>Free Shipping</strong>
+                                    </div>
+
+                                    <p>@shortDescription</p>
+
+                                    @if (product.Category != null)
+                                    {
+                                        <small class="list-category">Category: @product.Category.Name</small>
+                                    }
+
+                                    <b>View details</b>
+                                </div>
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <div class="empty-products list-empty">
+                            <i class="bi bi-box-seam"></i>
+                            <h3>No products found</h3>
+                            <p>Please add products from admin dashboard.</p>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Products" asp-action="Create">Add Product</a>
+                            }
+                        </div>
+                    }
+
+                </div>
+
+                <!-- Pagination -->
+                <div class="product-pagination">
+                    <select>
+                        <option>Show 10</option>
+                        <option>Show 20</option>
+                        <option>Show 30</option>
+                    </select>
+
+                    <div class="pagination-buttons">
+                        <button type="button"><i class="bi bi-chevron-left"></i></button>
+                        <button type="button" class="active">1</button>
+                        <button type="button">2</button>
+                        <button type="button">3</button>
+                        <button type="button"><i class="bi bi-chevron-right"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Newsletter Section -->
+        <section class="newsletter-section">
+            <div class="newsletter-content">
+                <h2>Subscribe on our newsletter</h2>
+                <p>Get daily news on upcoming offers from many suppliers all over the world</p>
+
+                <form class="newsletter-form">
+                    <div class="newsletter-input">
+                        <i class="bi bi-envelope"></i>
+                        <input type="email" placeholder="Email" />
+                    </div>
+
+                    <button type="button">Subscribe</button>
+                </form>
+            </div>
+        </section>
+
+    </div>
+</section>

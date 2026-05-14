@@ -1,0 +1,83 @@
+﻿@model EcommerceProject.Models.Category
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<section class="category-admin-page">
+    <div class="container">
+
+        <div class="category-page-header">
+            <div>
+                <p class="category-subtitle">Admin / Categories / Edit</p>
+                <h1>Edit Category</h1>
+            </div>
+
+            <div class="category-header-actions">
+                <a asp-controller="Categories" asp-action="Index" class="category-secondary-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Categories
+                </a>
+            </div>
+        </div>
+
+        <div class="category-form-layout">
+
+            <div class="category-form-card">
+                <div class="category-form-header">
+                    <h2>Update Category Information</h2>
+                    <p>Edit category name and save changes to database.</p>
+                </div>
+
+                <form asp-controller="Categories" asp-action="Edit" method="post" class="category-form">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" asp-for="Id" />
+
+                    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Name">Category Name</label>
+                        <input asp-for="Name" placeholder="Example: Electronics" />
+                        <span asp-validation-for="Name" class="field-validation"></span>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="category-primary-btn">
+                            <i class="bi bi-check-circle"></i>
+                            Save Changes
+                        </button>
+
+                        <a asp-controller="Categories" asp-action="Index" class="category-cancel-btn">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="category-help-card">
+                <div class="help-icon">
+                    <i class="bi bi-pencil-square"></i>
+                </div>
+
+                <h3>Edit Tips</h3>
+
+                <p>
+                    Updating a category name will also reflect wherever products are shown with this category.
+                </p>
+
+                <ul>
+                    <li>Use simple and clear names.</li>
+                    <li>Avoid duplicate category names.</li>
+                    <li>Do not rename categories too often.</li>
+                </ul>
+            </aside>
+
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

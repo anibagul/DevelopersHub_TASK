@@ -1,0 +1,17 @@
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.rsuser
+*.log
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+packages/
+*.nupkg
+.DS_Store
+Thumbs.db
+*.mdf
+*.ldf

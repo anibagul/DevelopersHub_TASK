@@ -1,0 +1,81 @@
+﻿@model EcommerceProject.Models.Category
+
+@{
+    ViewData["Title"] = "Add Category";
+}
+
+<section class="category-admin-page">
+    <div class="container">
+
+        <div class="category-page-header">
+            <div>
+                <p class="category-subtitle">Admin / Categories / Create</p>
+                <h1>Add New Category</h1>
+            </div>
+
+            <div class="category-header-actions">
+                <a asp-controller="Categories" asp-action="Index" class="category-secondary-btn">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Categories
+                </a>
+            </div>
+        </div>
+
+        <div class="category-form-layout">
+
+            <div class="category-form-card">
+                <div class="category-form-header">
+                    <h2>Category Information</h2>
+                    <p>Add a new category for your ecommerce products.</p>
+                </div>
+
+                <form asp-controller="Categories" asp-action="Create" method="post" class="category-form">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Name">Category Name</label>
+                        <input asp-for="Name" placeholder="Example: Electronics" />
+                        <span asp-validation-for="Name" class="field-validation"></span>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="category-primary-btn">
+                            <i class="bi bi-check-circle"></i>
+                            Save Category
+                        </button>
+
+                        <a asp-controller="Categories" asp-action="Index" class="category-cancel-btn">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="category-help-card">
+                <div class="help-icon">
+                    <i class="bi bi-lightbulb"></i>
+                </div>
+
+                <h3>Category Tips</h3>
+
+                <p>
+                    Categories help users browse products easily. Use simple names like Electronics, Fashion, Home Decor, or Automobiles.
+                </p>
+
+                <ul>
+                    <li>Keep category name short.</li>
+                    <li>Avoid duplicate categories.</li>
+                    <li>Use clear names for better filtering.</li>
+                </ul>
+            </aside>
+
+        </div>
+
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,136 @@
+﻿@model IEnumerable<EcommerceProject.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Checkout";
+
+    var cartItems = Model?.ToList() ?? new List<EcommerceProject.Models.CartItem>();
+    decimal subtotal = cartItems.Sum(item => (item.Product?.Price ?? 0) * item.Quantity);
+    decimal shipping = subtotal > 0 ? 0 : 0;
+    decimal total = subtotal + shipping;
+}
+
+<section class="checkout-page">
+    <div class="container">
+
+        <div class="checkout-header">
+            <div>
+                <p class="checkout-subtitle">Secure Checkout</p>
+                <h1>Checkout</h1>
+            </div>
+
+            <a asp-controller="CartItems" asp-action="Index" class="checkout-secondary-btn">
+                <i class="bi bi-arrow-left"></i>
+                Back to Cart
+            </a>
+        </div>
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="checkout-alert error">
+                <i class="bi bi-exclamation-circle"></i>
+                @TempData["Error"]
+            </div>
+        }
+
+        <div class="checkout-layout">
+
+            <div class="checkout-form-card">
+                <h2>Shipping Information</h2>
+                <p class="checkout-note">
+                    Shipping fields are for UI only right now. Order will be saved with your account and cart products.
+                </p>
+
+                <form>
+                    <div class="checkout-row">
+                        <div class="checkout-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="Enter your full name" />
+                        </div>
+
+                        <div class="checkout-group">
+                            <label>Phone Number</label>
+                            <input type="text" placeholder="Enter phone number" />
+                        </div>
+                    </div>
+
+                    <div class="checkout-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="Enter email address" />
+                    </div>
+
+                    <div class="checkout-group">
+                        <label>Address</label>
+                        <textarea placeholder="Enter complete address"></textarea>
+                    </div>
+
+                    <div class="checkout-row">
+                        <div class="checkout-group">
+                            <label>City</label>
+                            <input type="text" placeholder="City" />
+                        </div>
+
+                        <div class="checkout-group">
+                            <label>Postal Code</label>
+                            <input type="text" placeholder="Postal code" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <aside class="checkout-summary-card">
+                <h2>Order Summary</h2>
+
+                <div class="checkout-items">
+                    @foreach (var item in cartItems)
+                    {
+                        var product = item.Product;
+                        var imagePath = string.IsNullOrWhiteSpace(product?.ImageUrl)
+                        ? "/images/products/phone.png"
+                        : product.ImageUrl;
+
+                        var lineTotal = (product?.Price ?? 0) * item.Quantity;
+
+                        <div class="checkout-item">
+                            <img src="@imagePath" alt="@(product?.Name ?? "Product")" />
+
+                            <div>
+                                <h4>@(product?.Name ?? "Product")</h4>
+                                <p>Qty: @item.Quantity</p>
+                            </div>
+
+                            <strong>$@lineTotal.ToString("0.00")</strong>
+                        </div>
+                    }
+                </div>
+
+                <div class="checkout-total-box">
+                    <div>
+                        <span>Subtotal</span>
+                        <strong>$@subtotal.ToString("0.00")</strong>
+                    </div>
+
+                    <div>
+                        <span>Shipping</span>
+                        <strong>Free</strong>
+                    </div>
+
+                    <div class="checkout-grand-total">
+                        <span>Total</span>
+                        <strong>$@total.ToString("0.00")</strong>
+                    </div>
+                </div>
+
+                <form asp-controller="Checkout" asp-action="PlaceOrder" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="place-order-btn">
+                        <i class="bi bi-bag-check"></i>
+                        Place Order
+                    </button>
+                </form>
+            </aside>
+
+        </div>
+
+    </div>
+</section>
